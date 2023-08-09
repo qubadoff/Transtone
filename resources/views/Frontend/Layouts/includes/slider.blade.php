@@ -45,6 +45,26 @@
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div class="x_slider_form_main_wrapper float_left" data-animation="animated fadeIn">
+                                                @if(\Illuminate\Support\Facades\Session::has('success'))
+                                                    <div class="alert alert-success">
+                                                        {{ Session::get('success') }}
+                                                        @php
+                                                            Session::forget('success');
+                                                        @endphp
+                                                    </div>
+                                                @endif
+                                                @if($errors->any())
+                                                    <div class="alert alert-danger alert-dismissible fade show">
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true">x</span>
+                                                        </button>
+                                                        <ul class="list-unstyled">
+                                                            @foreach($errors->all() as $error)
+                                                                <li> {{ $error }} </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
                                                 <div class="x_slider_form_heading_wrapper float_left">
                                                     <h3>
                                                         {{__("Book a service")}}
@@ -68,8 +88,8 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="x_slider_form_input_wrapper float_left">
-                                                                <h3>{{__("Email adress")}}</h3>
-                                                                <input type="email" name="email" placeholder="{{__("Enter your email")}}">
+                                                                <h3>{{__("Email adress")}} *</h3>
+                                                                <input type="email" name="email" placeholder="{{__("Enter your email")}}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
@@ -124,7 +144,9 @@
             <div class="x_slider_form_heading_wrapper float_left">
                 <h3>{{__("Book a service")}}</h3>
             </div>
-            <form>
+            <form action="{{ route("bookOrder") }}" method="post">
+                @csrf
+                @method("post")
                 <div class="row">
                     <div class="col-md-12">
                         <div class="x_slider_form_input_wrapper float_left">
@@ -140,13 +162,13 @@
                     </div>
                     <div class="col-md-12">
                         <div class="x_slider_form_input_wrapper float_left">
-                            <h3>{{__("Email adress")}}</h3>
-                            <input type="email" name="email" placeholder="{{__("Enter your email")}}">
+                            <h3>{{__("Email adress")}} *</h3>
+                            <input type="email" name="email" placeholder="{{__("Enter your email")}}" required>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="x_slider_select">
-                            <select class="myselect" name="service" required>
+                            <select class="myselect" name="service_id" required>
                                 <option value="">{{__("Choose Service")}} *</option>
                                 @foreach(\App\Service::all() as $service)
                                     <option value="{{ $service->id }}">{{ $service->getTranslatedAttribute("name") }}</option>

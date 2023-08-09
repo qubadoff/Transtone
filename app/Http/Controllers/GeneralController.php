@@ -13,10 +13,12 @@ use App\Subscribe;
 use App\Technique;
 use App\TechniqueCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use TCG\Voyager\Models\Page;
 use TCG\Voyager\Models\Post;
+use function PHPUnit\Framework\isNull;
 
 class GeneralController extends Controller
 {
@@ -251,6 +253,42 @@ class GeneralController extends Controller
         if ($data->fails())
         {
             return back()->withErrors($data);
+        }
+
+        if (!isNull($request->photos))
+        {
+            $path = 'reservations/August2023/';
+
+            $imageFile = $request->file('photos');
+
+            $imageName = md5(time(). '-' . $imageFile->getClientOriginalName());
+
+            dd($imageName);
+
+            $imageUpload = Storage::disk('public')->put($path,$imageName, (string) file_get_contents($imageFile));
+
+            if ($imageUpload)
+            {
+                $save = new Reservation();
+                $save->name = $request->input('name');
+                $save->email = $request->input('email');
+                $save->phone = $request->input('phone');
+                $save->service_id = $request->input('service_id');
+                $save->car_id = $request->input('car_id');
+                $save->pickup_date = $request->input('pickup_date');
+                $save->dropoff_date = $request->input('dropoff_date');
+                $save->pickup_location = $request->input('pickup_location');
+                $save->dropoff_location = $request->input('dropoff_location');
+                $save->company_name = $request->input('company_name');
+                $save->photos = json_encode([["photos" => $path.$imageName,"original_name" => "User IP :" . $request->ip() ]]);
+                $save->message = $request->input('message');
+                $save->save();
+
+                return back()->with('success', 'Istəyiniz qeydə alındı. Qısa müddət ərzində sizinlə əlaqə saxlanılacaq.');
+            }
+            else {
+                dd("error");
+            }
         }
 
         if (Reservation::create($request->all()))
