@@ -39,6 +39,6 @@ class Car extends Model
 
     public function categories(): BelongsTo
     {
-        return $this->belongsTo(CarCategory::class, 'id', 'cat_id');
+        return $this->belongsTo(CarCategory::class, 'cat_id', 'id');
     }
 }

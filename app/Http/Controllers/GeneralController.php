@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Car;
+use App\CarCategory;
 use App\ContactMessage;
 use App\Gallery;
 use App\IndexTextInfo;
@@ -13,22 +14,21 @@ use App\Subscribe;
 use App\Technique;
 use App\TechniqueCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use TCG\Voyager\Models\Page;
 use TCG\Voyager\Models\Post;
-use function PHPUnit\Framework\isNull;
 
 class GeneralController extends Controller
 {
     public function index(): View
     {
-        $cars = Car::paginate(12);
-        $services = Service::paginate(12);
-        $infotext = IndexTextInfo::paginate(4);
+        $services = Service::paginate(6);
+        $cars = Car::paginate(10);
+        $pages = Page::all();
+        $post = Post::latest()->paginate(6);
 
-        return \view('Frontend.index', compact('cars', 'services', 'infotext'));
+        return \view('Frontend.index', compact('services', 'cars', 'pages', 'post'));
     }
 
     public function contact(): View
@@ -38,7 +38,7 @@ class GeneralController extends Controller
 
     public function sendMessage(Request $request)
     {
-        $validation = Validator::make($request->all(), [
+        $request -> validate([
             'name' => 'required|max:50',
             'surname' => 'required|max:50',
             'email' => 'required|email|max:50',
@@ -57,11 +57,6 @@ class GeneralController extends Controller
             'message.required' => 'Message is Required !',
             'message.max' => 'Message max 2000 symbol !'
         ]);
-
-        if ($validation->fails())
-        {
-            return back()->with('error', 'Nəsə düz getmədi ! Yenidən yoxlayın !');
-        }
 
         ContactMessage::create($request->all());
 
@@ -140,9 +135,10 @@ class GeneralController extends Controller
 
     public function car(): View
     {
-        $cars = Car::paginate(15);
+        $cars = Car::all();
+        $car_cat = CarCategory::all();
 
-        return \view('Frontend.car', compact('cars'));
+        return \view('Frontend.car', compact('cars', 'car_cat'));
     }
 
     public function singleCar($locale, $slug): View
@@ -219,7 +215,7 @@ class GeneralController extends Controller
 
     public function bookOrder(Request $request)
     {
-        $data = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|max:200',
             'email' => 'required|email|max:100',
             'phone' => 'required|max:100',
@@ -230,7 +226,6 @@ class GeneralController extends Controller
             'pickup_location' => 'max:300',
             'dropoff_location' => 'max:300',
             'company_name' => 'max:100',
-            'photos' => 'image|mimes:jpg,jpeg,png,webp,gif,svg|max:10000',
             'message' => 'max:5000'
         ], [
             'name.required' => 'Name is Required !',
@@ -245,57 +240,11 @@ class GeneralController extends Controller
             'pickup_date.date' => 'Pickup Date Format not valid !',
             'dropoff_date.date' => 'Dropoff Date Format Not valid !',
             'company_name.max' => 'Company name max 100 symbol !',
-            'photos.image' => 'Photos format not valid !',
-            'photos.mimes' => 'Photos mime type not valid !',
             'message.max' => 'Message max symbol 5000 !'
         ]);
 
-        if ($data->fails())
-        {
-            return back()->withErrors($data);
-        }
+        Reservation::create($request->all());
 
-        if (!isNull($request->photos))
-        {
-            $path = 'reservations/August2023/';
-
-            $imageFile = $request->file('photos');
-
-            $imageName = md5(time(). '-' . $imageFile->getClientOriginalName());
-
-            dd($imageName);
-
-            $imageUpload = Storage::disk('public')->put($path,$imageName, (string) file_get_contents($imageFile));
-
-            if ($imageUpload)
-            {
-                $save = new Reservation();
-                $save->name = $request->input('name');
-                $save->email = $request->input('email');
-                $save->phone = $request->input('phone');
-                $save->service_id = $request->input('service_id');
-                $save->car_id = $request->input('car_id');
-                $save->pickup_date = $request->input('pickup_date');
-                $save->dropoff_date = $request->input('dropoff_date');
-                $save->pickup_location = $request->input('pickup_location');
-                $save->dropoff_location = $request->input('dropoff_location');
-                $save->company_name = $request->input('company_name');
-                $save->photos = json_encode([["photos" => $path.$imageName,"original_name" => "User IP :" . $request->ip() ]]);
-                $save->message = $request->input('message');
-                $save->save();
-
-                return back()->with('success', 'Istəyiniz qeydə alındı. Qısa müddət ərzində sizinlə əlaqə saxlanılacaq.');
-            }
-            else {
-                dd("error");
-            }
-        }
-
-        if (Reservation::create($request->all()))
-        {
-            return back()->with('success', 'Istəyiniz qeydə alındı. Qısa müddət ərzində sizinlə əlaqə saxlanılacaq.');
-        }
-
-        return back()->with('error', 'Nəsə düz getmədi !');
+        return back()->with('success', 'Rezervasiyasnız qeydə alındı !');
     }
 }

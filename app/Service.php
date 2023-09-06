@@ -18,7 +18,7 @@ class Service extends Model
         'name',
         'description',
         'body',
-        'photo',
+        'image',
         'slug'
     ];
 

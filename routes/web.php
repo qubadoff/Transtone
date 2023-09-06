@@ -17,7 +17,7 @@ Route::prefix('{locale}')->where(['locale' => '[a-zA-Z]{2}'])->middleware('setLo
     Route::get('/cars/{slug}', [\App\Http\Controllers\GeneralController::class, 'singleCar'])->name('singleCar');
 
     Route::get('/services', [\App\Http\Controllers\GeneralController::class, 'services'])->name('services');
-    Route::get('/services/{slug}', [\App\Http\Controllers\GeneralController::class, 'singleServices'])->name('singleServices');
+    Route::get('/services/{slug}', [\App\Http\Controllers\GeneralController::class, 'singleServices'])->name('singleService');
 
     Route::get('/techniques', [\App\Http\Controllers\GeneralController::class, 'techniques'])->name('techniques');
     Route::get('/techniques/{slug}', [\App\Http\Controllers\GeneralController::class, 'techniquesSingle'])->name('techniquesSingle');

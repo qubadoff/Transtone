@@ -18,7 +18,8 @@ class Technique extends Model
         'description',
         'body',
         'photo',
-        'category_id'
+        'category_id',
+        'slug'
     ];
 
     protected $guarded = [];
@@ -31,7 +32,7 @@ class Technique extends Model
 
     public function categories(): BelongsTo
     {
-        return $this->belongsTo(TechniqueCategory::class);
+        return $this->belongsTo(TechniqueCategory::class, 'category_id', 'id');
     }
 
 }

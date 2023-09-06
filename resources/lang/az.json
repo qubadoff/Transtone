@@ -3,7 +3,8 @@
     "Home": "Ana səhifə",
     "About us": "Haqqımızda",
     "Services": "Xidmətlər",
-    "Sector": "Sektorlar",
+    "Our Company": "Şirkətimiz",
+    "Sectors": "Sektorlar",
     "Autopark": "Avtopark",
     "Techniques": "Texnikalar",
     "Media": "Qalareya",
@@ -25,6 +26,7 @@
     "Pages": "Səhifələr",
 
 
+
     "Book a service": "Xidmət sifariş et",
     "Full name": "Adınız və soyadınız",
     "Enter your full name": "Adınızı və soyadınızı daxil edin",
@@ -38,11 +40,28 @@
     "See All Cars": "Bütün maşınlar",
     "See All Services": "Bütün xidmətlər",
     "Latest news": "Ən son xəbərlər",
-    "metr": "m",
+    "metr": "metr",
     "kg": "Kq",
+    "ton": "ton",
     "Make an order": "Sifariş et",
     "Reservation": "Rezervasiya",
     "Warning": "Diqqət !",
     "Warning text": "Üzərində * ( ulduz ) olan hissələr mütləq doldurulmalıdır !",
-    "Techniques cat": "Texnika kateqoriyaları"
+    "Techniques cat": "Texnika kateqoriyaları",
+    "All Cat" : "Bütün Kateqoriyalar",
+    "Width": "En",
+    "Length": "Uzunluq",
+    "Height": "Hündürlük",
+    "Weight": "Ağırlıq",
+    "Capacity": "Tutum",
+    "Pallets": "Palet sayı",
+    "eded": "Ədəd",
+    "Pickup date": "Təhvil alma vaxtı",
+    "Dropoff date": "Təhvil vermə vaxtı",
+    "Pickup location": "Təhvil alma ünvanı",
+    "Dropoff location": "Təhvil alma ünvanı",
+    "Company name": "Müəsisə adı",
+    "Contact Us": "Şirkətlə Əlaqə",
+    "Location": "Ünvan",
+    "Blog": "Bloq"
 }

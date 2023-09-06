@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use TCG\Voyager\Traits\Translatable;
 
 
@@ -25,4 +26,9 @@ class CarCategory extends Model
         'name',
         'description'
     ];
+
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class);
+    }
 }

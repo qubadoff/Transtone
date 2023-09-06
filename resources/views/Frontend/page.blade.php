@@ -1,46 +1,45 @@
 @extends('Frontend.Layouts.app')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : __("About us"))
+
+@section('title')
+    {{ $page->getTranslatedAttribute('title') }}
+@endsection
 
 @section('content')
-    <div class="btc_tittle_main_wrapper">
-        <div class="btc_tittle_img_overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 full_width">
-                    <div class="btc_tittle_left_heading">
-                        <h1>{{$page->getTranslatedAttribute("title")}}</h1>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 full_width">
-                    <div class="btc_tittle_right_heading">
-                        <div class="btc_tittle_right_cont_wrapper">
-                            <ul>
-                                <li>
-                                    <a href="{{ route("index") }}">{{__("Home")}}</a><i class="fa fa-angle-right"></i>
-                                </li>
-                                <li>{{$page->getTranslatedAttribute("title")}}</li>
-                            </ul>
-                        </div>
-                    </div>
+    <div class="inner">
+        <section>
+            <header class="major">
+                <h2>Haqqimizda</h2>
+            </header>
+
+            <div class="d-flex" style="gap: 3rem">
+                <div>
+                    <span class="image main"><img src="{{ url('/') }}/storage/{{ $page->image }}" alt=""></span>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Ipsam autem voluptatem et corporis cupiditate, corrupti
+                        doloremque officiis. Rem, voluptates optio ipsam animi et
+                        nesciunt at deleniti sapiente laudantium omnis iure magnam
+                        obcaecati ab beatae iusto consequuntur vitae quis. Veniam
+                        asperiores facere ipsum a quaerat officiis incidunt soluta, ex
+                        at nisi.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Provident porro voluptatem, veniam illo possimus sit
+                        cupiditate quos debitis. Reiciendis quibusdam eligendi id
+                        molestias veniam doloremque dolorem, labore aut ratione
+                        dignissimos nostrum quisquam quaerat animi pariatur asperiores
+                        quas mollitia fugit ipsam sequi at rem, eos, eius atque
+                        magnam! Earum accusamus voluptatibus optio nemo porro
+                        doloribus officia et, aut id culpa fugit impedit tenetur quod
+                        eius rerum similique! Veritatis blanditiis earum reiciendis
+                        iure libero. Nemo distinctio odio asperiores, laudantium ea
+                        praesentium maiores!
+                    </p>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
-    <div class="x_about_seg_main_wrapper float_left padding_tb_100">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    @if($page->image)
-                        <img src="{{ url('/') }}/storage/{{ $page->image }}" alt="about_img">
-                    @endif
-                    <div class="x_about_seg_img_cont_wrapper float_left">
-                        <p>
-                            {!! $page->getTranslatedAttribute("body") !!}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

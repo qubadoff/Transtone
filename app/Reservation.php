@@ -20,7 +20,6 @@ class Reservation extends Model
         'pickup_location',
         'dropoff_location',
         'company_name',
-        'photos',
         'message',
     ];
 

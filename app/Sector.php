@@ -28,4 +28,8 @@ class Sector extends Model
         'description',
         'body',
     ];
+
+    protected $casts = [
+        'photo_gallery' => 'array'
+    ];
 }
