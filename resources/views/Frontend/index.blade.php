@@ -7,26 +7,13 @@
 
 @section('slider')
     <div class="slideshow-container">
-        <div class="mySlides fades">
-            <img
-                class="hero-slider-imgs"
-                src="https://img.freepik.com/free-photo/delivery-men-loading-carboard-boxes-van-while-getting-ready-shipment_637285-2289.jpg?w=1380&t=st=1693550528~exp=1693551128~hmac=bee76aff2795a2ff0bfeef6f80238f17bd3eebace98b7da45730cd3f1682a11c"
-            />
-        </div>
-
-        <div class="mySlides fades">
-            <img
-                class="hero-slider-imgs"
-                src="https://img.freepik.com/free-photo/young-happy-manual-worker-carrying-cardboard-boxes-delivery-van-while-communicating-with-his-colleagues_637285-1260.jpg?w=1380&t=st=1693550578~exp=1693551178~hmac=6f7d0ed1a03c6840941b260ce31af385102701e71957be92532b42fb4dbe2fe6"
-            />
-        </div>
-
-        <div class="mySlides fades">
-            <img
-                class="hero-slider-imgs"
-                src="https://img.freepik.com/free-photo/delivery-male-with-packages_23-2148869434.jpg?w=1380&t=st=1693550628~exp=1693551228~hmac=13ddb454cc83e7ec8c45bfc3747d7411189265809ce38b9149e23e1142628332"
-            />
-        </div>
+        @forelse(slider() as $i)
+            <div class="mySlides fades">
+                <img class="hero-slider-imgs" src="{{ url('/') }}/storage/{{ $i->image }}"/>
+            </div>
+        @empty
+            No Data !
+        @endforelse
     </div>
     <br />
 @endsection
@@ -51,7 +38,7 @@
                             {{ $i->getTranslatedAttribute("description") }}
                         </p>
                         <ul class="actions">
-                            <li><a href="{{ route("singleService", ['slug' => $i->slug]) }}" class="button">{{__("Read More")}}</a></li>
+                            <li><a href="{{ route("singleService", ['slug' => $i->slug]) }}" class="button">{{__("Read more")}}</a></li>
                         </ul>
                     </article>
                 @empty
@@ -84,8 +71,9 @@
                                 <img src="{{ url("/") }}/storage/{{ $i->photo_1 }}" alt="img" draggable="false"/>
                             </div>
                             <h2>{{ $i->getTranslatedAttribute("name") }}</h2>
+                            <br/>
                             <button style="padding: 2px 8px 8px 8px; width: 20%; margin: 8px">
-                                <a href="{{ route("singleCar", ['slug' => $i->slug]) }}">{{__("Read More")}}</a>
+                                <a href="{{ route("singleCar", ['slug' => $i->slug]) }}">{{__("Read more")}}</a>
                             </button>
                         </li>
                     @empty

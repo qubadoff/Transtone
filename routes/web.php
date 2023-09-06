@@ -11,16 +11,19 @@ Route::prefix('{locale}')->where(['locale' => '[a-zA-Z]{2}'])->middleware('setLo
 
     Route::get('/pages/{slug}', [\App\Http\Controllers\GeneralController::class, 'page'])->name('page');
 
+    Route::get('/news', [\App\Http\Controllers\GeneralController::class, 'news'])->name('news');
     Route::get('/news/{slug}', [\App\Http\Controllers\GeneralController::class, 'singleNews'])->name('singleNews');
 
     Route::get('/cars', [\App\Http\Controllers\GeneralController::class, 'car'])->name('car');
     Route::get('/cars/{slug}', [\App\Http\Controllers\GeneralController::class, 'singleCar'])->name('singleCar');
+    Route::get('/cars-cat/{slug}', [\App\Http\Controllers\GeneralController::class, 'carCategory'])->name('carCategory');
 
     Route::get('/services', [\App\Http\Controllers\GeneralController::class, 'services'])->name('services');
     Route::get('/services/{slug}', [\App\Http\Controllers\GeneralController::class, 'singleServices'])->name('singleService');
 
     Route::get('/techniques', [\App\Http\Controllers\GeneralController::class, 'techniques'])->name('techniques');
     Route::get('/techniques/{slug}', [\App\Http\Controllers\GeneralController::class, 'techniquesSingle'])->name('techniquesSingle');
+    Route::get('/technique_cat/{slug}', [\App\Http\Controllers\GeneralController::class, 'techniquesCatSingle'])->name('techniquesCatSingle');
 
     Route::get('/gallery', [\App\Http\Controllers\GeneralController::class, 'gallery'])->name('gallery');
 

@@ -5,7 +5,8 @@
 */
 
 const submenue = document.getElementsByClassName("submenu")[0];
- 
+const submenuSecond = document.getElementsByClassName("submenu")[1];
+
 (function ($) {
 
 	var $window = $(window),
@@ -95,7 +96,7 @@ const submenue = document.getElementsByClassName("submenu")[0];
 		.appendTo($sidebar)
 		.on('click', function (event) {
 
-            
+
 
 			// Prevent default.
 			event.preventDefault();
@@ -104,6 +105,7 @@ const submenue = document.getElementsByClassName("submenu")[0];
 			// Toggle.
 			$sidebar.toggleClass('inactive');
             submenue.style.display = "none"
+            submenuSecond.style.display = "none"
 		});
 
 	// Events.

@@ -7,6 +7,7 @@ use App\CarCategory;
 use App\ContactMessage;
 use App\Gallery;
 use App\IndexTextInfo;
+use App\Models\NewPost;
 use App\Reservation;
 use App\Sector;
 use App\Service;
@@ -16,6 +17,7 @@ use App\TechniqueCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use TCG\Voyager\Models\Category;
 use TCG\Voyager\Models\Page;
 use TCG\Voyager\Models\Post;
 
@@ -83,7 +85,7 @@ class GeneralController extends Controller
         return back()->with('success', 'Siz uğurla abuna oldunuz !');
     }
 
-    public function page($locale, $slug): View
+    public function page($locale,string $slug): View
     {
         $page = Page::where('slug', $slug)
             ->where('status', 'ACTIVE')
@@ -105,7 +107,7 @@ class GeneralController extends Controller
         return \view('Frontend.services', compact('services'));
     }
 
-    public function singleServices($locale, $slug): View
+    public function singleServices($locale,string $slug): View
     {
         $singleService = Service::where('slug', $slug)
         ->with('translations')
@@ -116,10 +118,20 @@ class GeneralController extends Controller
             abort(404);
         }
 
-        return \view('Frontend.singleService', compact('singleService'));
+        $service = Service::all();
+
+        return \view('Frontend.singleService', compact('singleService', 'service'));
     }
 
-    public function singleNews($locale, $slug): View
+    public function news(): View
+    {
+        $news = Post::where('status', 'published')->get();
+        $news_cat = Category::all();
+
+        return \view('Frontend.news', compact('news', 'news_cat'));
+    }
+
+    public function singleNews($locale,string $slug): View
     {
         $post = Post::where('slug', $slug)
             ->with('translations')
@@ -141,7 +153,7 @@ class GeneralController extends Controller
         return \view('Frontend.car', compact('cars', 'car_cat'));
     }
 
-    public function singleCar($locale, $slug): View
+    public function singleCar($locale,string $slug): View
     {
         $car = Car::where('slug', $slug)
             ->with('translations')
@@ -152,7 +164,24 @@ class GeneralController extends Controller
             abort(404);
         }
 
-        return \view('Frontend.singleCar', compact('car'));
+        $car_cat = CarCategory::all();
+
+        return \view('Frontend.singleCar', compact('car', 'car_cat'));
+    }
+
+    public function carCategory($locale,string $slug): View
+    {
+        $find_car_cat = CarCategory::where('slug', $slug)->first();
+
+        if (!$find_car_cat)
+        {
+            abort(404);
+        }
+
+        $cars = Car::where('cat_id', $find_car_cat->id)->get();
+        $car_cat = CarCategory::all();
+
+        return \view('Frontend.carCategory', compact('cars', 'car_cat', 'find_car_cat'));
     }
 
     public function gallery(): View
@@ -170,7 +199,7 @@ class GeneralController extends Controller
         return \view('Frontend.techniques', compact('techniques','technique_cat'));
     }
 
-    public function techniquesSingle($locale, $slug): View
+    public function techniquesSingle($locale,string $slug): View
     {
         $techniquesSingle = Technique::where('slug', $slug)
             ->with('translations')
@@ -181,7 +210,25 @@ class GeneralController extends Controller
             abort(404);
         }
 
-        return \view('Frontend.techniquesSingle', compact('techniquesSingle'));
+        $technique_cat = TechniqueCategory::all();
+
+        return \view('Frontend.techniquesSingle', compact('techniquesSingle', 'technique_cat'));
+    }
+
+    public function techniquesCatSingle($locale,string $slug): View
+    {
+        $find_technique_cat = TechniqueCategory::where('slug', $slug)->first();
+
+        if (!$find_technique_cat)
+        {
+            abort(404);
+        }
+
+        $techniques = Technique::where('category_id', $find_technique_cat->id)->get();
+
+        $technique_cat = TechniqueCategory::all();
+
+        return \view('Frontend.techniquesCatSingle', compact('techniques', 'technique_cat', 'find_technique_cat'));
     }
 
     public function sector(): View
@@ -191,7 +238,7 @@ class GeneralController extends Controller
         return \view('Frontend.sector', compact('sectors'));
     }
 
-    public function singleSector($locale, $slug): View
+    public function singleSector($locale,string $slug): View
     {
         $singleSector = Sector::where('slug', $slug)
         ->with('translations')

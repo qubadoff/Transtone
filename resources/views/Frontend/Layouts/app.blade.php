@@ -5,23 +5,9 @@
         @yield('title')
     </title>
     <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, user-scalable=no"
-    />
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous"
-    />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="{{ url('/') }}/assets/css/main.css" />
 </head>
 
@@ -36,9 +22,9 @@
                 name="language-picker-select"
                 id="language-picker-select"
             >
-                <option lang="az" value="deutsch">AZ</option>
-                <option lang="en" value="english">EN</option>
-                <option lang="ru" value="francais">RU</option>
+                <option lang="az" value="deutsch">{{__("AZ")}}</option>
+                <option lang="en" value="english">{{__("EN")}}</option>
+                <option lang="ru" value="francais">{{__("RU")}}</option>
             </select>
 
             @yield('slider')
@@ -109,14 +95,14 @@
                 <div class="footer_primary">
                     <h6>{{__("Blog")}}</h6>
                     <ul class="footer_primary-services">
-                        @forelse(posts() as $i)
+                        @forelse(postsFooter() as $i)
                             <li>
-                                <a class="footer_primary-service-items" href="{{ route("page", ['slug' => $i->slug]) }}">
+                                <a class="footer_primary-service-items" href="{{ route("singleNews", ['slug' => $i->slug]) }}">
                                     {{ $i->getTranslatedAttribute("title") }}
                                 </a>
                             </li>
                         @empty
-                            NO Data !
+                            No Data !
                         @endforelse
                     </ul>
                 </div>
@@ -133,7 +119,11 @@
             <div style="height: 100vh; position: sticky; top: 0" class="inner">
                 <!-- LOGO -->
                 <div>
-                    <div class="logo">Transtone</div>
+                    <div class="logo">
+                        <a href="{{ route("index") }}">
+                            <img src="{{ url('/') }}/storage/{{ setting('site.logo') }}" alt="">
+                        </a>
+                    </div>
                     <nav id="menu" class="mt-5">
                         <header class="major">
                             <h2>
@@ -141,6 +131,8 @@
                             </h2>
                         </header>
                         <ul>
+                            <li><a href="{{ route("index") }}">{{__("Home")}}</a></li>
+
                             <!-- ---------------------------    ana sehife     --------------------- -->
                             <li id="home-li">
                                 <div class="d-flex align-center">
@@ -152,34 +144,26 @@
                                     </div>
                                 </div>
                             </li>
+
                             <div id="sidebar-menu">
                                 <ul class="nav flex-column">
                                     <li class="nav-item dropdown">
-                                        <div
-                                            class="d-flex align-center nav-link dropdown-toggle"
-                                        >
-                                            <a href="{{ route("index") }}">{{__("Home")}}</a>
-                                            <div
-                                                id="home"
-                                                style="width: 2rem; cursor: pointer"
-                                                class="d-flex justify-content-center align-items-center mx-2"
-                                            >
+                                        <div class="d-flex align-center nav-link dropdown-toggle">
+                                            <a href="{{ route("index") }}">{{__("Our Company")}}</a>
+                                            <div id="home" style="width: 2rem; cursor: pointer" class="d-flex justify-content-center align-items-center mx-2">
                                                 <i class="fas fa-caret-down pull-right fa-lg"></i>
                                             </div>
                                         </div>
                                         <ul class="nav subnav">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Haqqimizda</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Form</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Blog</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">QALEREYA</a>
-                                            </li>
+                                            @forelse(pages() as $i)
+                                                <li class="nav-item">
+                                                    <a style="color: #3a3a3a;" class="nav-link" href="{{ route("page", ['slug' => $i->slug]) }}">
+                                                        {{ $i->getTranslatedAttribute('title') }}
+                                                    </a>
+                                                </li>
+                                            @empty
+                                                No Data
+                                            @endforelse
                                         </ul>
                                     </li>
                                 </ul>
@@ -189,7 +173,7 @@
 
                             <li id="home-li">
                                 <div class="d-flex align-center">
-                                    <a href="#">{{__("Services")}} </a>
+                                    <a href="{{ route("services") }}">{{__("Services")}} </a>
                                     <div id="about" style="width: 2rem; cursor: pointer" class="d-flex justify-content-center align-items-center mx-2">
                                         <i class="fas fa-caret-right pull-right fa-lg"></i>
                                     </div>
@@ -200,24 +184,19 @@
                                 <ul class="nav flex-column">
                                     <li class="nav-item dropdown">
                                         <div class="d-flex align-center nav-link dropdown-toggle">
-                                            <a href="about.html">{{__("Services")}}</a>
+                                            <a href="{{ route("services") }}">{{__("Services")}}</a>
                                             <div id="about" style="width: 2rem; cursor: pointer" class="d-flex justify-content-center align-items-center mx-2">
                                                 <i class="fas fa-caret-down pull-right fa-lg"></i>
                                             </div>
                                         </div>
                                         <ul class="nav subnav">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">haqqimda</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">test</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">tes</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">test</a>
-                                            </li>
+                                            @forelse(servicesFooter() as $i)
+                                                <li class="nav-item">
+                                                    <a style="color: #3a3a3a;" class="nav-link" href="{{ route("singleService", ['slug' => $i->slug]) }}">{{ $i->getTranslatedAttribute('name') }}</a>
+                                                </li>
+                                            @empty
+                                                No Data !
+                                            @endforelse
                                         </ul>
                                     </li>
                                 </ul>
@@ -226,9 +205,11 @@
                             <!-- ---------------------------    about bitir     --------------------- -->
 
                             <li><a href="{{ route("car") }}">{{__("Autopark")}}</a></li>
+                            <li><a href="{{ route("techniques") }}">{{__("Techniques")}}</a></li>
                             <li><a href="{{ route("sector") }}">{{__("Sectors")}}</a></li>
                             <li><a href="{{ route("gallery") }}">{{__("Media")}}</a></li>
-                            <li><a href="{{ route("contact") }}">{{__("Contact Us")}}</a></li>
+                            <li><a href="{{ route("news") }}">{{__("Blog")}}</a></li>
+                            <li><a href="{{ route("contact") }}">{{__("Contact")}}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -237,19 +218,13 @@
 
                 <ul class="icons">
                     <li>
-                        <a href="#" class="icon brands fa-twitter"
-                        ><span class="label">Twitter</span></a
-                        >
+                        <a href="{{ setting('site.fb') }}" target="_blank" class="icon brands fa-facebook"><span class="label"></span></a>
                     </li>
                     <li>
-                        <a href="#" class="icon brands fa-facebook-f"
-                        ><span class="label">Facebook</span></a
-                        >
+                        <a href="{{ setting('site.instagram') }}" target="_blank" class="icon brands fa-instagram"><span class="label"></span></a>
                     </li>
                     <li>
-                        <a href="#" class="icon brands fa-instagram"
-                        ><span class="label">Instagram</span></a
-                        >
+                        <a href="{{ setting('site.linkedin') }}" target="_blank" class="icon brands fa-linkedin-in"><span class="label"></span></a>
                     </li>
                 </ul>
             </div>
@@ -257,16 +232,14 @@
         <!-- ---------------------------    ana sehife mobile baslayir     --------------------- -->
         <div class="submenu" id="submenu">
             <div style="top: 0" class="position-sticky">
-                <div
-                    class="submenu_logo d-flex align-items-center justify-content-center"
-                >
-                    <div class="fa-2x">logo</div>
+                <div class="submenu_logo d-flex align-items-center justify-content-center">
+                    <div class="fa-2x">Transtone</div>
                 </div>
                 <div class="submenu_title">{{__("Our Company")}}</div>
                 <ul class="submenu-list">
                     @forelse(pages() as $i)
                         <li class="submenu-per-list">
-                            <a href="{{ route("page", ['slug' => $i->slug]) }}">{{ $i->getTranslatedAttribute("title") }}</a>
+                            <a style="color: #3a3a3a;" href="{{ route("page", ['slug' => $i->slug]) }}"><i class="fas fa-caret-right pull-right fa-lg"></i> {{ $i->getTranslatedAttribute("title") }}</a>
                         </li>
                     @empty
                         No Data !
@@ -280,16 +253,14 @@
 
         <div class="submenu" id="submenu-about">
             <div style="top: 0" class="position-sticky">
-                <div
-                    class="submenu_logo d-flex align-items-center justify-content-center"
-                >
+                <div class="submenu_logo d-flex align-items-center justify-content-center">
                     <div class="fa-2x">{{__("Transtone")}}</div>
                 </div>
                 <div class="submenu_title">{{__("Services")}}</div>
                 <ul class="submenu-list">
                     @forelse(servicesFooter() as $i)
                         <li class="submenu-per-list">
-                            <a href="{{ route("singleService", ['slug' => $i->slug]) }}">{{ $i->getTranslatedAttribute("name") }}</a>
+                            <a style="color: #3a3a3a;" href="{{ route("singleService", ['slug' => $i->slug]) }}"><i class="fas fa-caret-right pull-right fa-lg"></i> {{ $i->getTranslatedAttribute("name") }}</a>
                         </li>
                     @empty
                         No Data !

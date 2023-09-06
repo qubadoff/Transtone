@@ -1,7 +1,7 @@
 @extends('Frontend.Layouts.app')
 
 @section('title')
-    {{ $page->getTranslatedAttribute('title') }}
+    {{ $post->getTranslatedAttribute("title") }}
 @endsection
 
 @section('content')
@@ -9,17 +9,17 @@
         <header id="header"></header>
         <section>
             <header class="major">
-                <h2>{{ $page->getTranslatedAttribute('title') }}</h2>
+                <h2>{{ $post->getTranslatedAttribute('title') }}</h2>
             </header>
 
             <div class="d-flex" style="gap: 3rem">
                 <div>
-                    @if($page->image)
-                        <span class="image main"><img src="{{ url('/') }}/storage/{{ $page->image }}" alt=""></span>
+                    @if($post->image)
+                        <span class="image main"><img src="{{ url('/') }}/storage/{{ $post->image }}" alt=""></span>
                     @endif
 
                     <p>
-                        {!! $page->getTranslatedAttribute("body") !!}
+                        {!! $post->getTranslatedAttribute("body") !!}
                     </p>
                 </div>
             </div>
@@ -27,3 +27,4 @@
     </div>
 
 @endsection
+

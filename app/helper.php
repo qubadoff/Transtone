@@ -40,12 +40,22 @@ if (! function_exists("pages"))
     }
 }
 
-if (! function_exists("posts"))
+if (! function_exists("postsFooter"))
 {
-    function posts()
+    function postsFooter()
     {
-        $posts = \TCG\Voyager\Models\Post::where('status', 'active')->paginate(6);
+        $posts = \TCG\Voyager\Models\Post::where('status', 'published')->paginate(6);
 
         return $posts;
+    }
+}
+
+if (! function_exists("slider"))
+{
+    function slider()
+    {
+        $slider = \App\Slider::orderBy('order', 'ASC')->get();
+
+        return $slider;
     }
 }
