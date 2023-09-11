@@ -10,7 +10,8 @@ class Slider extends Model
     protected $table = 'slider';
 
     protected $fillable = [
-        'image'
+        'image',
+        'order'
     ];
 
     protected $guarded = [];

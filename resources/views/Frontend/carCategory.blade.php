@@ -9,14 +9,14 @@
         <header id="header"></header>
         <section>
             <header class="major">
-                <h2>{{__("Services")}}</h2>
+                <h2>{{__("Autopark")}}</h2>
             </header>
             <div class="d-flex" style="gap: 3rem">
                 <div>
                     <div class="posts">
                         @forelse($cars as $i)
                             <article>
-                                <a href="{{ route("singleService", ['slug' => $i->slug]) }}" class="image"><img src="{{ url('/') }}/storage/{{ $i->photo_1 }}" alt=""></a>
+                                <a href="{{ route("singleCar", ['slug' => $i->slug]) }}" class="image"><img src="{{ url('/') }}/storage/{{ $i->photo_1 }}" alt="{{ $i->photo_1 }}"></a>
                                 <h3>{{ $i->getTranslatedAttribute("name") }}</h3>
                                 <p>
                                     {!! $i->getTranslatedAttribute("description") !!}
@@ -35,7 +35,7 @@
                 <div class="banner_image-container">
                     <div class="banner-img">
                         <div class="banner_categories">
-                            <h4 class="mb-4">{{__("Services")}}</h4>
+                            <h4 class="mb-4">{{__("Categories")}}</h4>
                             <ul style="gap: 3rem" class="d-flex flex-column">
                                 @foreach($car_cat as $i)
                                     <li class="banner_categories-button">

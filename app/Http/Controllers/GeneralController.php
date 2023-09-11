@@ -7,6 +7,7 @@ use App\CarCategory;
 use App\ContactMessage;
 use App\Gallery;
 use App\IndexTextInfo;
+use App\Mail\ContactMail;
 use App\Models\NewPost;
 use App\Reservation;
 use App\Sector;
@@ -15,6 +16,7 @@ use App\Subscribe;
 use App\Technique;
 use App\TechniqueCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use TCG\Voyager\Models\Category;
@@ -61,6 +63,24 @@ class GeneralController extends Controller
         ]);
 
         ContactMessage::create($request->all());
+
+        $data = array(
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'message' => $request->message
+        );
+
+        $emails = array(
+            'admin@burncode.org',
+            'admin@burncode.az'
+        );
+
+        foreach ($emails as $key => $email)
+        {
+            Mail::to($email)->send(new ContactMail($data));
+        }
 
         return back()->with('success', 'Sizin mesajınız uğurla göndərildi !');
     }

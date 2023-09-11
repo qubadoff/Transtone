@@ -14,7 +14,8 @@ class TechniqueCategory extends Model
     protected $table = 'technique_category';
 
     protected $fillable = [
-        'name'
+        'name',
+        'slug'
     ];
 
     protected $guarded = [];
