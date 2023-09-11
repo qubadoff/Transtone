@@ -16,7 +16,7 @@
                     <div class="posts">
                         @forelse($techniques as $i)
                             <article>
-                                <a href="{{ route("singleService", ['slug' => $i->slug]) }}" class="image"><img src="{{ url('/') }}/storage/{{ $i->photo }}" alt=""></a>
+                                <a href="{{ route("techniquesSingle", ['slug' => $i->slug]) }}" class="image"><img src="{{ url('/') }}/storage/{{ $i->photo }}" alt=""></a>
                                 <h3>{{ $i->getTranslatedAttribute("name") }}</h3>
                                 <p>
                                     {!! $i->getTranslatedAttribute("description") !!}
